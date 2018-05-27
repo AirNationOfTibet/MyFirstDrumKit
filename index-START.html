@@ -58,7 +58,33 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
-  
+  //event listener.
+  window.addEventListener('keydown', playSound);
+
+
+  //function to play the sound.
+  function playSound(e){
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+    //this if statement will stop function from running if there is nothing on audio.
+    if(!audio) return; 
+    //audio.currenttime will rewind to the start so that audio.play can repeatedly press instead of waiting to finish an audio key.
+    audio.currentTime = 0;
+    audio.play();
+    key.classList.add('playing');
+  }
+
+  //function to transition it back 
+  function removeTransition(e){
+    if(e.propertyName !== 'transform') return; //skip it if its not a transform
+    console.log(e.propertyName);
+    this.classList.remove('playing');
+    
+  }
+
+  const keys = document.querySelectorAll('.key');
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+
 
 </script>
 
